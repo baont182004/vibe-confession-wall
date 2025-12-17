@@ -95,4 +95,4 @@ Frontend mặc định chạy tại: `http://localhost:5173`
 
 ## License
 
-Dự án học tập / demo. Bạn có thể thêm MIT License nếu muốn open-source.
+Dự án học tập / demo.
