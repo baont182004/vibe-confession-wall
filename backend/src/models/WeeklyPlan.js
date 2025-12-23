@@ -3,9 +3,11 @@ import mongoose from 'mongoose';
 
 const todoItemSchema = new mongoose.Schema({
   text: { type: String, required: true },
-  dayOfWeek: { type: Number, min: 0, max: 6 }, // 0=Sunday, etc.
+  dayOfWeek: { type: Number, min: 0, max: 6 }, 
+  startTime: { type: String, default: null }, // HH:mm
+  endTime: { type: String, default: null },   // HH:mm
   completed: { type: Boolean, default: false },
-  allowedDate: { type: String }, // ISO Date string YYYY-MM-DD
+  allowedDate: { type: String }, 
 });
 
 const weeklyPlanSchema = new mongoose.Schema({
@@ -14,7 +16,7 @@ const weeklyPlanSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  weekId: { type: String, required: true }, // Format: "2023-W42"
+  weekId: { type: String, required: true }, 
   items: [todoItemSchema],
   isClosed: { type: Boolean, default: false },
   score: { type: Number, default: 0 }

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import clsx from 'clsx';
+import { cn } from '../../lib/utils';
 
 export const Card = ({ children, className, ...props }) => {
   return (
@@ -7,7 +7,10 @@ export const Card = ({ children, className, ...props }) => {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25, ease: 'easeOut' }}
-      className={clsx('card', className)}
+      className={cn(
+        'card rounded-[var(--radius)] border border-[var(--border)] bg-[var(--surface)] shadow-card',
+        className
+      )}
       {...props}
     >
       {children}

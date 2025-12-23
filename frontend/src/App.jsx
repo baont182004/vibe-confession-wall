@@ -7,6 +7,7 @@ import ChatPage from './pages/ChatPage';
 import Layout from './components/Layout';
 import ProfilePage from './pages/Profile';
 import AdminPage from './pages/AdminPage';
+import WeeklyPlanPage from './pages/WeeklyPlanPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route index element={<FeedPage />} />
             <Route path="chat" element={<ChatPage />} />
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="weekly-plan" element={<WeeklyPlanPage />} />
             <Route path="admin" element={<AdminPage />} />
             {/* Add Journal, Todo routes here */}
           </Route>

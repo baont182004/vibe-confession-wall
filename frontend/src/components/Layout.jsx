@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useAuth } from '../context/AuthContext';
 import { Button } from './ui/Button';
 import { Avatar } from './ui/Avatar';
-import { Home, MessageCircle, User, Shield, LogOut } from 'lucide-react';
+import { Home, MessageCircle, User, Shield, LogOut, CalendarClock } from 'lucide-react';
 
 export default function Layout() {
   const { user, loading, logout } = useAuth();
@@ -37,6 +37,9 @@ export default function Layout() {
               </Link>
               <Link to="/chat" className={clsx('nav-link', isActive('/chat') && 'is-active')}>
                 <MessageCircle size={18} /> Chat
+              </Link>
+              <Link to="/weekly-plan" className={clsx('nav-link', isActive('/weekly-plan') && 'is-active')}>
+                <CalendarClock size={18} /> Weekly Plan
               </Link>
               <Link to="/profile" className={clsx('nav-link', isActive('/profile') && 'is-active')}>
                 <User size={18} /> Profile

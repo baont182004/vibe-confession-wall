@@ -92,3 +92,35 @@ export const changeAvatarDefaultSchema = z.object({
     avatarUrl: z.string().min(1),
   }),
 });
+
+const weekIdSchema = z.string().regex(/^\d{4}-W\d{2}$/).optional();
+const timeStringSchema = z.string().regex(/^\d{2}:\d{2}$/);
+
+export const addWeeklyItemSchema = z.object({
+  body: z.object({
+    weekId: weekIdSchema,
+    text: z.string().min(1).max(200),
+    dayOfWeek: z.number().int().min(0).max(6),
+    startTime: timeStringSchema.optional(),
+    endTime: timeStringSchema.optional(),
+    allowedDate: z.string().optional(),
+  }),
+});
+
+export const updateWeeklyItemSchema = z.object({
+  body: z.object({
+    weekId: weekIdSchema,
+    text: z.string().min(1).max(200).optional(),
+    dayOfWeek: z.number().int().min(0).max(6).optional(),
+    startTime: timeStringSchema.optional().nullable(),
+    endTime: timeStringSchema.optional().nullable(),
+    allowedDate: z.string().optional().nullable(),
+    completed: z.boolean().optional(),
+  }),
+});
+
+export const closeWeeklyPlanSchema = z.object({
+  body: z.object({
+    weekId: weekIdSchema,
+  }),
+});

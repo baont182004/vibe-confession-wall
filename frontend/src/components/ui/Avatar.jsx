@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import clsx from 'clsx';
+import { cn } from '../../lib/utils';
 import { getAvatarSrc, getDefaultAvatar } from '../../utils/avatar';
 
 export const Avatar = ({ user, src, size = 40, alt, className, style, ...props }) => {
@@ -33,7 +33,7 @@ export const Avatar = ({ user, src, size = 40, alt, className, style, ...props }
     <img
       src={resolvedSrc}
       alt={resolvedAlt}
-      className={clsx('avatar', className)}
+      className={cn('avatar rounded-full border border-[var(--border)] bg-[var(--surface2)] object-cover', className)}
       style={{ width: size, height: size, ...style }}
       onError={() => setErrored(true)}
       {...props}

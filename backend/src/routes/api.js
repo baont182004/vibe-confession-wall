@@ -9,13 +9,27 @@ import { createPost, getPosts, toggleReaction, updatePost, deletePost } from '..
 import { getRooms, createRoom, getRoomMessages } from '../controllers/chatController.js';
 import { createReport } from '../controllers/reportController.js';
 import { protect, adminOnly } from '../middleware/auth.js';
-import { validate, emailSchema, verifyOtpSchema, postSchema, reportSchema, changeUsernameSchema, changeAvatarSchema, changeNicknameSchema, changeAvatarDefaultSchema } from '../lib/validation.js';
+import {
+  validate,
+  emailSchema,
+  verifyOtpSchema,
+  postSchema,
+  reportSchema,
+  changeUsernameSchema,
+  changeAvatarSchema,
+  changeNicknameSchema,
+  changeAvatarDefaultSchema,
+  addWeeklyItemSchema,
+  updateWeeklyItemSchema,
+  closeWeeklyPlanSchema
+} from '../lib/validation.js';
 import rateLimit from 'express-rate-limit';
 import { env } from '../config/env.js';
 import { testEmail } from '../controllers/debugController.js';
 import { updateUsername, updateNickname, updateAvatar, updateAvatarDefault, uploadAvatar } from '../controllers/userController.js';
 import { overview, listPosts as adminListPosts, deletePostAdmin, listComments as adminListComments, deleteCommentAdmin } from '../controllers/adminController.js';
 import { createComment, getComments, updateComment, deleteComment, voteComment } from '../controllers/commentController.js';
+import { addWeeklyItem, closeWeeklyPlan, deleteWeeklyItem, getWeeklyPlan, reopenWeeklyPlan, updateWeeklyItem } from '../controllers/weeklyPlanController.js';
 
 const router = express.Router();
 
@@ -116,6 +130,14 @@ router.delete('/admin/comments/:id', protect, adminOnly, deleteCommentAdmin);
 router.get('/chat/rooms', protect, getRooms);
 router.post('/chat/rooms', protect, adminOnly, createRoom);
 router.get('/chat/rooms/:roomId/messages', protect, getRoomMessages);
+
+// Weekly Plan
+router.get('/weekly-plan', protect, getWeeklyPlan);
+router.post('/weekly-plan/items', protect, validate(addWeeklyItemSchema), addWeeklyItem);
+router.patch('/weekly-plan/items/:itemId', protect, validate(updateWeeklyItemSchema), updateWeeklyItem);
+router.delete('/weekly-plan/items/:itemId', protect, deleteWeeklyItem);
+router.post('/weekly-plan/close', protect, validate(closeWeeklyPlanSchema), closeWeeklyPlan);
+router.post('/weekly-plan/reopen', protect, validate(closeWeeklyPlanSchema), reopenWeeklyPlan);
 
 // Reporting
 router.post('/reports', protect, validate(reportSchema), createReport);
