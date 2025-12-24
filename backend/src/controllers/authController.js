@@ -8,6 +8,8 @@ import logger from '../lib/logger.js';
 import { env } from '../config/env.js';
 import { createTransporter } from '../config/email.js';
 
+const DEFAULT_TIMEZONE = 'Asia/Ho_Chi_Minh';
+
 const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
@@ -71,7 +73,6 @@ export const requestOTP = async (req, res) => {
       email,
       nickname,
       nicknameLower: nickname.toLowerCase(),
-      avatarId: 1,
     });
   }
 
@@ -158,8 +159,9 @@ export const verifyOTP = async (req, res) => {
       _id: user._id,
       nickname: user.nickname,
       avatarId: user.avatarId,
-      avatarUrl: user.avatarUrl,
-      role: user.role
+      role: user.role,
+      timezone: user.timezone || DEFAULT_TIMEZONE,
+      profileNote: user.profileNote || '',
     }
   });
 };
@@ -179,8 +181,9 @@ export const getMe = (req, res) => {
       _id: req.user._id,
       nickname: req.user.nickname,
       avatarId: req.user.avatarId,
-      avatarUrl: req.user.avatarUrl,
-      role: req.user.role
+      role: req.user.role,
+      timezone: req.user.timezone || DEFAULT_TIMEZONE,
+      profileNote: req.user.profileNote || '',
     }
   });
 };

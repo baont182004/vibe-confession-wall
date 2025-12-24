@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 
 const todoItemSchema = new mongoose.Schema({
   text: { type: String, required: true },
-  dayOfWeek: { type: Number, min: 0, max: 6 }, 
+  dayOfWeek: { type: Number, min: 0, max: 7 }, 
   startTime: { type: String, default: null }, // HH:mm
   endTime: { type: String, default: null },   // HH:mm
   completed: { type: Boolean, default: false },

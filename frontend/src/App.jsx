@@ -3,11 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
 import FeedPage from './pages/FeedPage';
-import ChatPage from './pages/ChatPage';
 import Layout from './components/Layout';
 import ProfilePage from './pages/Profile';
 import AdminPage from './pages/AdminPage';
 import WeeklyPlanPage from './pages/WeeklyPlanPage';
+import JournalPage from './pages/JournalPage';
 
 function App() {
   return (
@@ -17,9 +17,9 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<Layout />}>
             <Route index element={<FeedPage />} />
-            <Route path="chat" element={<ChatPage />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="weekly-plan" element={<WeeklyPlanPage />} />
+            <Route path="journal" element={<JournalPage />} />
             <Route path="admin" element={<AdminPage />} />
             {/* Add Journal, Todo routes here */}
           </Route>

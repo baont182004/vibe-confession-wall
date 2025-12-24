@@ -1,21 +1,20 @@
 import { useMemo, useRef, useState } from 'react';
 import { EventBlock } from './EventBlock';
-import { rangeToStyle, snapMinutes, STEP_MINUTES, START_MINUTES, END_MINUTES, PX_PER_MIN, HOUR_HEIGHT, minutesToLabel } from './timeUtils';
-import { Button } from '../ui/Button';
-import { cn } from '../../lib/utils';
+import { snapMinutes, STEP_MINUTES, START_MINUTES, END_MINUTES, PX_PER_MIN, HOUR_HEIGHT, minutesToLabel } from './timeUtils';
 
 export const DayColumnGrid = ({
-  label,
-  dateLabel,
   dayIndex,
+  columnDateKey,
   items,
+  legacyMismatchIds,
+  highlightLegacy = false,
   isClosed,
+  disableToggle,
+  onLocked,
   onAddRange,
   onEditItem,
   onToggleItem,
-  onMoveItem,
-  unscheduledItems = [],
-  onAddUnscheduled,
+  trace,
 }) => {
   const [selection, setSelection] = useState(null); // {top,height,start,end}
   const containerRef = useRef(null);
@@ -23,7 +22,10 @@ export const DayColumnGrid = ({
   const selectionRef = useRef(null);
 
   const handlePointerDown = (e) => {
-    if (isClosed) return;
+    if (isClosed) {
+      onLocked?.();
+      return;
+    }
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
     const offsetY = e.clientY - rect.top;
@@ -55,7 +57,6 @@ export const DayColumnGrid = ({
   };
 
   const scheduled = useMemo(() => items.filter(i => i.startTimeMinutes != null && i.endTimeMinutes != null), [items]);
-  const unscheduled = useMemo(() => unscheduledItems || items.filter(i => i.startTimeMinutes == null || i.endTimeMinutes == null), [items, unscheduledItems]);
 
   return (
     <div className="relative flex flex-col border-l border-[var(--border)] w-full">
@@ -91,10 +92,14 @@ export const DayColumnGrid = ({
           <EventBlock
             key={item._id}
             item={item}
-            disabled={isClosed}
+            isLegacyMismatch={highlightLegacy && legacyMismatchIds?.has(item._id)}
+            disableActions={isClosed}
+            disableToggle={disableToggle}
             onEdit={onEditItem}
             onToggle={onToggleItem}
-            onMove={onMoveItem}
+            dayIndex={dayIndex}
+            columnDateKey={columnDateKey}
+            trace={trace}
           />
         ))}
       </div>

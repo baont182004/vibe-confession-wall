@@ -21,7 +21,7 @@ export const createComment = async (req, res) => {
     content: cleanContent,
   });
 
-  await comment.populate('authorId', 'nickname avatarId avatarUrl');
+  await comment.populate('authorId', 'nickname avatarId');
 
   res.status(201).json(comment);
 };
@@ -37,7 +37,7 @@ export const getComments = async (req, res) => {
     .sort({ createdAt: -1 }) // Newest first
     .skip(Number(skip))
     .limit(Number(limit))
-    .populate('authorId', 'nickname avatarId avatarUrl');
+    .populate('authorId', 'nickname avatarId');
 
   const total = await Comment.countDocuments(query);
 
@@ -84,7 +84,7 @@ export const updateComment = async (req, res) => {
 
   comment.content = sanitizeHtml(content.trim());
   await comment.save();
-  await comment.populate('authorId', 'nickname avatarId avatarUrl');
+  await comment.populate('authorId', 'nickname avatarId');
   res.json(comment);
 };
 

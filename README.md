@@ -14,7 +14,7 @@ Web app chia sẻ bài viết/confession **ẩn danh** trong phạm vi một c�
 - React bài viết (mỗi người chỉ 1 react cho mỗi bài)
 - Hồ sơ cá nhân (Profile)
   - Đổi nickname hiển thị (không trùng nhau)
-  - Chọn ảnh đại diện mặc định hoặc tải ảnh đại diện lên
+  - Chon avatar mac dinh (avatarId 1..31), khong ho tro upload anh
 - Phân quyền
   - **User**: sửa/xóa bài viết và bình luận của chính mình
   - **Admin**: chỉ được xóa bài viết/bình luận (không sửa nội dung người khác)
@@ -96,3 +96,7 @@ Frontend mặc định chạy tại: `http://localhost:5173`
 ## License
 
 Dự án học tập / demo.
+
+## Avatar
+- Avatar chi su dung mac dinh (avatarId 1..31), khong ho tro upload.
+

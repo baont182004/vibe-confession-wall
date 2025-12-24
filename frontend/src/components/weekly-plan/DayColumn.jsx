@@ -1,5 +1,5 @@
 import { Button } from '../ui/Button';
-import { WeeklyItemCard } from './WeeklyItemCard';
+import { PlanItemCard } from './PlanItemCard';
 import { cn } from '../../lib/utils';
 
 const compareByTime = (a, b) => {
@@ -21,19 +21,20 @@ export const DayColumn = ({ label, dayIndex, items = [], isClosed, onAdd, onEdit
           <div className="text-lg font-semibold">{completed}/{sorted.length}</div>
         </div>
         <Button size="sm" variant="ghost" onClick={() => onAdd(dayIndex)} disabled={isClosed}>
-          Add
+          Thêm
         </Button>
       </div>
 
       <div className="space-y-2 overflow-auto">
         {sorted.length === 0 ? (
-          <div className="text-sm text-[var(--textMuted)]">No items</div>
+          <div className="text-sm text-[var(--textMuted)]">Không có mục</div>
         ) : (
           sorted.map(item => (
-            <WeeklyItemCard
+            <PlanItemCard
               key={item._id}
               item={item}
-              disabled={isClosed}
+              disableActions={isClosed}
+              disableToggle={false}
               onEdit={() => onEdit(item)}
               onDelete={() => onDelete(item)}
               onToggle={() => onToggle(item)}

@@ -1,5 +1,6 @@
 
 import { z } from 'zod';
+import { format, isValid, parse } from 'date-fns';
 
 export const emailSchema = z.object({
   body: z.object({
@@ -30,13 +31,13 @@ export const commentSchema = z.object({
 export const profileSchema = z.object({
   body: z.object({
     nickname: z.string().min(2).max(30).regex(/^[a-zA-Z0-9_]+$/, "Alphanumeric only"),
-    avatarId: z.number().int().min(1).max(100),
+    avatarId: z.number().int().min(1).max(31),
   }),
 });
 
 export const reportSchema = z.object({
   body: z.object({
-    targetType: z.enum(['Post', 'Comment', 'ChatMessage']),
+    targetType: z.enum(['Post', 'Comment']),
     targetId: z.string(),
     reason: z.string().min(3),
   }),
@@ -79,31 +80,76 @@ export const changeNicknameSchema = z.object({
 
 export const changeAvatarSchema = z.object({
   body: z.object({
-    avatarId: z.coerce.number().int().min(1).max(100).optional(),
-    avatarKey: z.string().min(1).optional(),
-    avatarUrl: z.string().min(1).optional(),
-  }).refine((data) => data.avatarId || data.avatarUrl || data.avatarKey, {
-    message: 'Avatar selection is required',
+    avatarId: z.coerce.number().int().min(1).max(31),
   }),
 });
 
-export const changeAvatarDefaultSchema = z.object({
+export const updateTimezoneSchema = z.object({
   body: z.object({
-    avatarUrl: z.string().min(1),
+    timezone: z.string().min(1),
   }),
 });
+
+export const updateProfileNoteSchema = z.object({
+  body: z.object({
+    profileNote: z.string().max(160),
+  }),
+});
+
+const DATE_KEY_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+const DATE_KEY_FORMAT = 'yyyy-MM-dd';
+
+export const validateDateKey = (value) => {
+  if (typeof value !== 'string' || !DATE_KEY_REGEX.test(value)) {
+    return {
+      code: 'INVALID_DATE_KEY',
+      message: 'dateKey must be YYYY-MM-DD.',
+    };
+  }
+  const parsed = parse(value, DATE_KEY_FORMAT, new Date());
+  if (!isValid(parsed)) {
+    return {
+      code: 'INVALID_DATE_KEY',
+      message: 'dateKey must be YYYY-MM-DD.',
+    };
+  }
+  if (format(parsed, DATE_KEY_FORMAT) !== value) {
+    return {
+      code: 'INVALID_DATE_KEY',
+      message: 'dateKey must be YYYY-MM-DD.',
+    };
+  }
+  return null;
+};
+
+export const validateJournalContent = (value, maxLength = 10000) => {
+  if (typeof value !== 'string') {
+    return {
+      code: 'INVALID_CONTENT',
+      message: `content is required and must be <= ${maxLength} chars.`,
+    };
+  }
+  const trimmed = value.trim();
+  if (!trimmed || trimmed.length > maxLength) {
+    return {
+      code: 'INVALID_CONTENT',
+      message: `content is required and must be <= ${maxLength} chars.`,
+    };
+  }
+  return null;
+};
 
 const weekIdSchema = z.string().regex(/^\d{4}-W\d{2}$/).optional();
 const timeStringSchema = z.string().regex(/^\d{2}:\d{2}$/);
+const dateKeySchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
 export const addWeeklyItemSchema = z.object({
   body: z.object({
     weekId: weekIdSchema,
     text: z.string().min(1).max(200),
-    dayOfWeek: z.number().int().min(0).max(6),
     startTime: timeStringSchema.optional(),
     endTime: timeStringSchema.optional(),
-    allowedDate: z.string().optional(),
+    dateKey: dateKeySchema.optional(),
   }),
 });
 
@@ -111,10 +157,9 @@ export const updateWeeklyItemSchema = z.object({
   body: z.object({
     weekId: weekIdSchema,
     text: z.string().min(1).max(200).optional(),
-    dayOfWeek: z.number().int().min(0).max(6).optional(),
     startTime: timeStringSchema.optional().nullable(),
     endTime: timeStringSchema.optional().nullable(),
-    allowedDate: z.string().optional().nullable(),
+    dateKey: dateKeySchema.optional().nullable(),
     completed: z.boolean().optional(),
   }),
 });

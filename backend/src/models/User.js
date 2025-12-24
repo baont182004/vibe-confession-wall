@@ -1,5 +1,6 @@
 
 import mongoose from 'mongoose';
+import { computeAvatarIdFromId } from '../lib/avatarId.js';
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -19,15 +20,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true,
     sparse: true,
-    default: null,
+    // Không lưu null để không bị đụng unique index
+    set: (v) => (v ? v : undefined),
     select: false,
   },
   avatarId: {
     type: Number,
-    default: 1,
-  },
-  avatarUrl: {
-    type: String,
+    min: 1,
+    max: 31,
     default: null,
   },
   username: {
@@ -39,8 +39,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true,
     sparse: true,
-    default: null,
     select: false,
+    set: (v) => (v ? v : undefined),
+  },
+  timezone: {
+    type: String,
+    default: 'Asia/Ho_Chi_Minh',
+  },
+  profileNote: {
+    type: String,
+    default: '',
+    trim: true,
+    maxlength: 160,
   },
   role: {
     type: String,
@@ -69,6 +79,18 @@ const userSchema = new mongoose.Schema({
     enum: ['active', 'banned'],
     default: 'active',
   },
+  currentStreak: {
+    type: Number,
+    default: 0,
+  },
+  bestStreak: {
+    type: Number,
+    default: 0,
+  },
+  lastQualifiedDateKey: {
+    type: String,
+    default: null,
+  },
 }, { timestamps: true });
 
 // Index for email and nickname
@@ -76,5 +98,12 @@ userSchema.index({ email: 1 });
 userSchema.index({ nickname: 1 });
 userSchema.index({ nicknameLower: 1 }, { unique: true, sparse: true });
 userSchema.index({ usernameLower: 1 }, { unique: true, sparse: true });
+
+userSchema.pre('validate', function assignAvatarId(next) {
+  if (!this.avatarId || this.avatarId < 1 || this.avatarId > 31) {
+    this.avatarId = computeAvatarIdFromId(this._id);
+  }
+  next();
+});
 
 export default mongoose.model('User', userSchema);

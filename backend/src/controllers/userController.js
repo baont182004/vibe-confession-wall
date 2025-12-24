@@ -1,18 +1,26 @@
-import fs from 'fs';
-import path from 'path';
 import User from '../models/User.js';
-import { DEFAULT_AVATARS, isDefaultAvatar } from '../lib/avatars.js';
 
-const removeAvatarFile = async (avatarUrl) => {
-  if (!avatarUrl || !avatarUrl.startsWith('/uploads/avatars/')) return;
-  const relativePath = avatarUrl.replace(/^\//, '');
-  const filePath = path.join(process.cwd(), relativePath);
+const DEFAULT_TIMEZONE = 'Asia/Ho_Chi_Minh';
+
+const buildUserPayload = (user) => ({
+  _id: user._id,
+  nickname: user.nickname,
+  avatarId: user.avatarId,
+  role: user.role,
+  username: user.username,
+  timezone: user.timezone || DEFAULT_TIMEZONE,
+  profileNote: user.profileNote || '',
+});
+
+const normalizeTimezone = (value) => (typeof value === 'string' ? value.trim() : '');
+
+const isValidTimezone = (value) => {
+  if (!value) return false;
   try {
-    await fs.promises.unlink(filePath);
-  } catch (err) {
-    if (err.code !== 'ENOENT') {
-      console.warn('Failed to remove avatar file', err.message);
-    }
+    Intl.DateTimeFormat('en-US', { timeZone: value }).format(new Date());
+    return true;
+  } catch {
+    return false;
   }
 };
 
@@ -28,14 +36,7 @@ export const updateUsername = async (req, res) => {
   req.user.usernameLower = lower;
   await req.user.save();
   res.json({
-    user: {
-      _id: req.user._id,
-      nickname: req.user.nickname,
-      avatarId: req.user.avatarId,
-      avatarUrl: req.user.avatarUrl,
-      role: req.user.role,
-      username: req.user.username,
-    },
+    user: buildUserPayload(req.user),
   });
 };
 
@@ -54,114 +55,56 @@ export const updateNickname = async (req, res) => {
   await req.user.save();
 
   res.json({
-    user: {
-      _id: req.user._id,
-      nickname: req.user.nickname,
-      avatarId: req.user.avatarId,
-      avatarUrl: req.user.avatarUrl,
-      role: req.user.role,
-      username: req.user.username,
-    },
+    user: buildUserPayload(req.user),
   });
 };
 
 export const updateAvatar = async (req, res) => {
-  const { avatarId, avatarUrl, avatarKey } = req.body;
-  const parsedKey = avatarKey && Number.isFinite(Number(avatarKey)) ? Number(avatarKey) : null;
-  const resolvedAvatarId = avatarId || parsedKey;
-  const resolvedAvatarUrl = avatarUrl || (avatarKey && !parsedKey ? avatarKey : null);
-
-  if (!resolvedAvatarId && !resolvedAvatarUrl) {
-    return res.status(400).json({ message: 'Avatar selection is required' });
+  if (Object.prototype.hasOwnProperty.call(req.body, 'avatarUrl')
+    || Object.prototype.hasOwnProperty.call(req.body, 'avatarKey')) {
+    return res.status(400).json({ message: 'Avatar upload is not supported. Use avatarId only.' });
   }
 
-  if (resolvedAvatarId) {
-    await removeAvatarFile(req.user.avatarUrl);
-    req.user.avatarId = resolvedAvatarId;
-    req.user.avatarUrl = null;
-  } else if (resolvedAvatarUrl) {
-    if (!isDefaultAvatar(resolvedAvatarUrl)) {
-      return res.status(400).json({ message: 'Invalid default avatar selection' });
-    }
-    await removeAvatarFile(req.user.avatarUrl);
-    req.user.avatarUrl = resolvedAvatarUrl;
-    req.user.avatarId = null;
+  const { avatarId } = req.body;
+  if (!Number.isInteger(avatarId) || avatarId < 1 || avatarId > 31) {
+    return res.status(400).json({ message: 'avatarId must be an integer between 1 and 31.' });
   }
+
+  req.user.avatarId = avatarId;
 
   await req.user.save();
 
   res.json({
-    user: {
-      _id: req.user._id,
-      nickname: req.user.nickname,
-      avatarId: req.user.avatarId,
-      avatarUrl: req.user.avatarUrl,
-      role: req.user.role,
-      username: req.user.username,
-    },
+    user: buildUserPayload(req.user),
   });
 };
 
-export const updateAvatarDefault = async (req, res) => {
-  const { avatarUrl } = req.body;
-  if (!avatarUrl || !isDefaultAvatar(avatarUrl)) {
-    return res.status(400).json({ message: 'Invalid default avatar selection' });
+export const updateProfileNote = async (req, res) => {
+  if (typeof req.body?.profileNote !== 'string') {
+    return res.status(400).json({ message: 'profileNote must be a string.' });
   }
-
-  await removeAvatarFile(req.user.avatarUrl);
-
-  req.user.avatarUrl = avatarUrl;
-  req.user.avatarId = null;
-
+  const nextNote = req.body.profileNote.trim();
+  req.user.profileNote = nextNote;
   await req.user.save();
-
   res.json({
-    user: {
-      _id: req.user._id,
-      nickname: req.user.nickname,
-      avatarId: req.user.avatarId,
-      avatarUrl: req.user.avatarUrl,
-      role: req.user.role,
-      username: req.user.username,
-      updatedAt: req.user.updatedAt,
-    },
+    user: buildUserPayload(req.user),
   });
 };
+export const rejectAvatarUpload = (req, res) => {
+  res.status(410).json({ message: 'Avatar upload has been removed. Use avatarId only.' });
+};
 
-
-export const uploadAvatar = async (req, res) => {
-  const contentType = req.headers['content-type'] || '';
-
-  if (!req.file) {
-    console.warn('[avatar] upload missing file', { contentType });
-    return res.status(400).json({ message: 'No file received' });
+export const updateTimezone = async (req, res) => {
+  const timezone = normalizeTimezone(req.body.timezone);
+  if (!isValidTimezone(timezone)) {
+    return res.status(400).json({
+      code: 'INVALID_TIMEZONE',
+      message: 'Timezone must be a valid IANA timezone string.',
+    });
   }
-
-  const avatarUrl = `/uploads/avatars/${req.file.filename}`;
-
-  await removeAvatarFile(req.user.avatarUrl);
-
-  req.user.avatarUrl = avatarUrl;
-  req.user.avatarId = null;
-
+  req.user.timezone = timezone;
   await req.user.save();
-
   res.json({
-    user: {
-      _id: req.user._id,
-      nickname: req.user.nickname,
-      avatarId: req.user.avatarId,
-      avatarUrl: req.user.avatarUrl,
-      role: req.user.role,
-      username: req.user.username,
-      updatedAt: req.user.updatedAt,
-    },
+    user: buildUserPayload(req.user),
   });
-};
-
-export const getDefaultAvatars = (req, res) => {
-  res.json(DEFAULT_AVATARS.map((path, index) => ({
-    id: index + 1,
-    path,
-  })));
 };

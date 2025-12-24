@@ -15,7 +15,7 @@ export const createPost = async (req, res) => {
   });
 
   // Populate author details for immediate return
-  await post.populate('authorId', 'nickname avatarId avatarUrl');
+  await post.populate('authorId', 'nickname avatarId');
 
   res.status(201).json(post);
 };
@@ -43,14 +43,14 @@ export const getPosts = async (req, res) => {
     .sort(sortOption)
     .skip(Number(skip))
     .limit(Number(limit))
-    .populate('authorId', 'nickname avatarId avatarUrl')
+    .populate('authorId', 'nickname avatarId')
     .lean();
 
   const postsWithComments = await Promise.all(posts.map(async (post) => {
     const featuredComments = await Comment.find({ postId: post._id, status: 'active' })
       .sort({ createdAt: -1 })
       .limit(2)
-      .populate('authorId', 'nickname avatarId avatarUrl')
+      .populate('authorId', 'nickname avatarId')
       .lean();
     return { ...post, featuredComments };
   }));
@@ -99,7 +99,7 @@ export const updatePost = async (req, res) => {
   if (!perm.allowed) return res.status(perm.code || 403).json({ message: 'Forbidden' });
   post.content = sanitizeHtml(req.body.content || post.content);
   await post.save();
-  await post.populate('authorId', 'nickname avatarId avatarUrl');
+  await post.populate('authorId', 'nickname avatarId');
   res.json(post);
 };
 

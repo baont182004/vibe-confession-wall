@@ -1,7 +1,6 @@
 
 import Post from '../models/Post.js';
 import Comment from '../models/Comment.js';
-import ChatMessage from '../models/ChatMessage.js';
 import { env } from '../config/env.js';
 
 export const createReport = async (req, res) => {
@@ -12,7 +11,6 @@ export const createReport = async (req, res) => {
   switch (targetType) {
     case 'Post': TargetModel = Post; break;
     case 'Comment': TargetModel = Comment; break;
-    case 'ChatMessage': TargetModel = ChatMessage; break;
     default: return res.status(400).json({ message: 'Invalid target type' });
   }
 

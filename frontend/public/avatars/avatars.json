@@ -1,0 +1,466 @@
+[
+  {
+    "id": 1,
+    "file": "avatar-01.png",
+    "title": "Mèo ôm sách",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "cat",
+      "book"
+    ],
+    "accent": "teal"
+  },
+  {
+    "id": 2,
+    "file": "avatar-02.png",
+    "title": "Cún mũ tốt nghiệp mini",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "dog",
+      "cap"
+    ],
+    "accent": "purple"
+  },
+  {
+    "id": 3,
+    "file": "avatar-03.png",
+    "title": "Gấu nhỏ cầm bút chì",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "bear",
+      "pencil"
+    ],
+    "accent": "amber"
+  },
+  {
+    "id": 4,
+    "file": "avatar-04.png",
+    "title": "Thỏ tai nghe học bài",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "rabbit",
+      "headphones"
+    ],
+    "accent": "blue"
+  },
+  {
+    "id": 5,
+    "file": "avatar-05.png",
+    "title": "Cánh cụt mang ba lô",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "penguin",
+      "backpack"
+    ],
+    "accent": "pink"
+  },
+  {
+    "id": 6,
+    "file": "avatar-06.png",
+    "title": "Cá voi ngủ trên vở",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "whale",
+      "notebook"
+    ],
+    "accent": "teal"
+  },
+  {
+    "id": 7,
+    "file": "avatar-07.png",
+    "title": "Ếch học trên laptop",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "frog",
+      "laptop"
+    ],
+    "accent": "purple"
+  },
+  {
+    "id": 8,
+    "file": "avatar-08.png",
+    "title": "Hổ con checklist",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "tiger",
+      "checklist"
+    ],
+    "accent": "amber"
+  },
+  {
+    "id": 9,
+    "file": "avatar-09.png",
+    "title": "Rái cá trà sữa",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "otter",
+      "milktea"
+    ],
+    "accent": "blue"
+  },
+  {
+    "id": 10,
+    "file": "avatar-10.png",
+    "title": "Mèo và báo thức",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "cat",
+      "alarm"
+    ],
+    "accent": "pink"
+  },
+  {
+    "id": 11,
+    "file": "avatar-11.png",
+    "title": "Cú đêm đèn bàn",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "owl",
+      "lamp"
+    ],
+    "accent": "teal"
+  },
+  {
+    "id": 12,
+    "file": "avatar-12.png",
+    "title": "Hamster hộp bút",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "hamster",
+      "stationery"
+    ],
+    "accent": "purple"
+  },
+  {
+    "id": 13,
+    "file": "avatar-13.png",
+    "title": "Cáo nhỏ flashcard",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "fox",
+      "flashcard"
+    ],
+    "accent": "amber"
+  },
+  {
+    "id": 14,
+    "file": "avatar-14.png",
+    "title": "Panda ôm gối thư giãn",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "panda",
+      "pillow"
+    ],
+    "accent": "blue"
+  },
+  {
+    "id": 15,
+    "file": "avatar-15.png",
+    "title": "Sloth bên sách mở",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "sloth",
+      "book"
+    ],
+    "accent": "pink"
+  },
+  {
+    "id": 16,
+    "file": "avatar-16.png",
+    "title": "Capybara hoodie học tập",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "capybara",
+      "hoodie"
+    ],
+    "accent": "teal"
+  },
+  {
+    "id": 17,
+    "file": "avatar-17.png",
+    "title": "Mèo và sticky notes",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "cat",
+      "notes"
+    ],
+    "accent": "purple"
+  },
+  {
+    "id": 18,
+    "file": "avatar-18.png",
+    "title": "Rùa thời khóa biểu",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "turtle",
+      "schedule"
+    ],
+    "accent": "amber"
+  },
+  {
+    "id": 19,
+    "file": "avatar-19.png",
+    "title": "Corgi cạnh cặp sách",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "dog",
+      "bag"
+    ],
+    "accent": "blue"
+  },
+  {
+    "id": 20,
+    "file": "avatar-20.png",
+    "title": "Mèo kính tròn đọc sách",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "cat",
+      "glasses"
+    ],
+    "accent": "pink"
+  },
+  {
+    "id": 21,
+    "file": "avatar-21.png",
+    "title": "Thỏ cầm bông hoa",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "rabbit",
+      "support"
+    ],
+    "accent": "teal"
+  },
+  {
+    "id": 22,
+    "file": "avatar-22.png",
+    "title": "Gấu trúc vòng nguyệt quế",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "panda",
+      "laurel"
+    ],
+    "accent": "purple"
+  },
+  {
+    "id": 23,
+    "file": "avatar-23.png",
+    "title": "Mèo nhảy qua giấy vở",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "cat",
+      "paper"
+    ],
+    "accent": "amber"
+  },
+  {
+    "id": 24,
+    "file": "avatar-24.png",
+    "title": "Cú và cốc cacao",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "owl",
+      "cocoa"
+    ],
+    "accent": "blue"
+  },
+  {
+    "id": 25,
+    "file": "avatar-25.png",
+    "title": "Chim sẻ và bức thư",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "bird",
+      "letter"
+    ],
+    "accent": "pink"
+  },
+  {
+    "id": 26,
+    "file": "avatar-26.png",
+    "title": "Mèo gục bên bàn học",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "cat",
+      "tired"
+    ],
+    "accent": "teal"
+  },
+  {
+    "id": 27,
+    "file": "avatar-27.png",
+    "title": "Cún và bảng kế hoạch",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "dog",
+      "plan"
+    ],
+    "accent": "purple"
+  },
+  {
+    "id": 28,
+    "file": "avatar-28.png",
+    "title": "Gấu nhỏ trước cầu vồng",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "bear",
+      "rainbow"
+    ],
+    "accent": "amber"
+  },
+  {
+    "id": 29,
+    "file": "avatar-29.png",
+    "title": "Thỏ hít thở sâu",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "rabbit",
+      "calm"
+    ],
+    "accent": "blue"
+  },
+  {
+    "id": 30,
+    "file": "avatar-30.png",
+    "title": "Mèo ôm trái tim",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "cat",
+      "care"
+    ],
+    "accent": "pink"
+  },
+  {
+    "id": 31,
+    "file": "avatar-31.png",
+    "title": "Mascot DearPeer",
+    "tags": [
+      "cute",
+      "study",
+      "highschool",
+      "sharing",
+      "peerpressure",
+      "mascot"
+    ],
+    "accent": "teal"
+  }
+]

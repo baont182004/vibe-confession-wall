@@ -29,7 +29,7 @@ export const listPosts = async (req, res) => {
     .sort({ createdAt: -1 })
     .skip(Number(skip))
     .limit(Number(limit))
-    .populate('authorId', 'nickname avatarId avatarUrl');
+    .populate('authorId', 'nickname avatarId');
   const total = await Post.countDocuments(query);
   res.json({ items: posts, page: Number(page), pages: Math.ceil(total / limit), total });
 };
@@ -54,7 +54,7 @@ export const listComments = async (req, res) => {
     .sort({ createdAt: -1 })
     .skip(Number(skip))
     .limit(Number(limit))
-    .populate('authorId', 'nickname avatarId avatarUrl');
+    .populate('authorId', 'nickname avatarId');
   const total = await Comment.countDocuments(query);
   res.json({ items: comments, page: Number(page), pages: Math.ceil(total / limit), total });
 };

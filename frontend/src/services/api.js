@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-export const API_ORIGIN = API_BASE_URL.replace(/\/api\/?$/, '');
-
 const api = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
@@ -14,15 +12,21 @@ export const logout = () => api.post('/auth/logout');
 export const getMe = () => api.get('/auth/me');
 export const updateUsername = (username) => api.patch('/users/me/username', { username });
 export const updateNickname = (nickname) => api.patch('/users/me/nickname', { nickname });
+export const updateProfileNote = (profileNote) => api.patch('/users/me/profile-note', { profileNote });
 
-export const uploadAvatar = (file) => {
-  const formData = new FormData();
-  formData.append('avatar', file);
-  return api.post('/users/me/avatar', formData);
+export const updateAvatar = async (avatarId) => {
+  const payload = { avatarId };
+  try {
+    return await api.patch('/users/me/avatar', payload);
+  } catch (error) {
+    const status = error?.response?.status;
+    if (status === 404 || status === 405 || status === 410) {
+      return await api.patch('/users/me', payload);
+    }
+    throw error;
+  }
 };
-
-export const updateAvatar = (payload) => api.patch('/users/me/avatar', payload);
-export const updateAvatarDefault = (avatarUrl) => api.patch('/users/me/avatar-default', { avatarUrl });
+export const updateTimezone = (timezone) => api.patch('/users/me/timezone', { timezone });
 
 export const getPosts = (page) => api.get(`/posts?page=${page}`);
 export const createPost = (content) => api.post('/posts', { content });
@@ -35,9 +39,18 @@ export const updateComment = (id, content) => api.patch(`/comments/${id}`, { con
 export const deleteComment = (id) => api.delete(`/comments/${id}`);
 export const voteComment = (id, value) => api.put(`/comments/${id}/vote`, { value });
 
-export const getRooms = () => api.get('/chat/rooms');
-export const getChatMessages = (roomId, before) => api.get(`/chat/rooms/${roomId}/messages`, { params: { before } });
-
 export const reportEntity = (targetType, targetId, reason) => api.post('/reports', { targetType, targetId, reason });
+
+export const getJournal = (dateKey) => api.get('/journal', { params: { date: dateKey } });
+export const upsertJournal = (dateKey, content) => api.put('/journal', { dateKey, content });
+export const deleteJournal = (dateKey) => api.delete('/journal', { params: { date: dateKey } });
+export const getStreak = () => api.get('/streak');
+export const getStreakStatus = (dateKey, config = {}) => api.get('/streak/status', {
+  ...config,
+  params: {
+    ...(config.params || {}),
+    date: dateKey,
+  },
+});
 
 export default api;
