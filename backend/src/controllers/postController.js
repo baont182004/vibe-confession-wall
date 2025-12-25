@@ -1,4 +1,5 @@
 
+import mongoose from 'mongoose';
 import Post from '../models/Post.js';
 import Reaction from '../models/Reaction.js';
 import Comment from '../models/Comment.js';
@@ -15,7 +16,7 @@ export const createPost = async (req, res) => {
   });
 
   // Populate author details for immediate return
-  await post.populate('authorId', 'nickname avatarId');
+  await post.populate('authorId', 'nickname avatarId currentStreak');
 
   res.status(201).json(post);
 };
@@ -47,12 +48,15 @@ export const getPosts = async (req, res) => {
     .lean();
 
   const postsWithComments = await Promise.all(posts.map(async (post) => {
-    const featuredComments = await Comment.find({ postId: post._id, status: 'active' })
-      .sort({ createdAt: -1 })
-      .limit(2)
-      .populate('authorId', 'nickname avatarId')
-      .lean();
-    return { ...post, featuredComments };
+    const [featuredComments, commentCount] = await Promise.all([
+      Comment.find({ postId: post._id, status: 'active' })
+        .sort({ createdAt: -1 })
+        .limit(2)
+        .populate('authorId', 'nickname avatarId currentStreak')
+        .lean(),
+      Comment.countDocuments({ postId: post._id, status: 'active' }),
+    ]);
+    return { ...post, featuredComments, commentCount };
   }));
 
   const total = await Post.countDocuments(query);
@@ -99,7 +103,7 @@ export const updatePost = async (req, res) => {
   if (!perm.allowed) return res.status(perm.code || 403).json({ message: 'Forbidden' });
   post.content = sanitizeHtml(req.body.content || post.content);
   await post.save();
-  await post.populate('authorId', 'nickname avatarId');
+  await post.populate('authorId', 'nickname avatarId currentStreak');
   res.json(post);
 };
 
@@ -112,4 +116,22 @@ export const deletePost = async (req, res) => {
   post.status = 'deleted';
   await post.save();
   res.json({ message: 'Deleted' });
+};
+
+export const getPostById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid post id' });
+  }
+  const post = await Post.findOne({ _id: id, status: { $ne: 'deleted' } })
+    .populate('authorId', 'nickname avatarId currentStreak')
+    .lean();
+  if (!post) {
+    return res.status(404).json({ message: 'Post not found' });
+  }
+
+  const commentCount = await Comment.countDocuments({ postId: post._id, status: { $ne: 'deleted' } });
+  post.commentCount = commentCount;
+
+  res.json({ post });
 };

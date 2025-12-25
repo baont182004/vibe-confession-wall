@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { formatDistanceToNow } from 'date-fns';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
-import { PostModal } from '../comments/PostModal';
+import { ThreadModal } from '../comments/ThreadModal';
 import { getPosts } from '../../services/api';
+import { formatRelativeTime } from '../../utils/relativeTime';
 
 const PAGE_SIZE = 10;
 
@@ -75,8 +75,8 @@ export const MyPostsSection = ({ user }) => {
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <div className="text-sm font-semibold">Bài viết</div>
-                  <div className="text-xs text-[var(--textMuted)]">
-                    {formatDistanceToNow(new Date(post.createdAt))} trước
+                <div className="text-xs text-[var(--textMuted)]">
+                    {formatRelativeTime(post.createdAt)}
                   </div>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => setSelectedPost(post)}>
@@ -102,7 +102,7 @@ export const MyPostsSection = ({ user }) => {
         </div>
       )}
 
-      <PostModal
+      <ThreadModal
         isOpen={!!selectedPost}
         onClose={() => setSelectedPost(null)}
         post={selectedPost}

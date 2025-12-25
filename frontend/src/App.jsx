@@ -8,6 +8,7 @@ import ProfilePage from './pages/Profile';
 import AdminPage from './pages/AdminPage';
 import WeeklyPlanPage from './pages/WeeklyPlanPage';
 import JournalPage from './pages/JournalPage';
+import PostPage from './pages/PostPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="weekly-plan" element={<WeeklyPlanPage />} />
             <Route path="journal" element={<JournalPage />} />
             <Route path="admin" element={<AdminPage />} />
+            <Route path="posts/:id" element={<PostPage />} />
             {/* Add Journal, Todo routes here */}
           </Route>
         </Routes>

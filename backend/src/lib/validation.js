@@ -15,9 +15,21 @@ export const verifyOtpSchema = z.object({
   }),
 });
 
+const MAX_POST_WORDS = 200;
+const countWords = (value = '') =>
+  value
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+
 export const postSchema = z.object({
   body: z.object({
-    content: z.string().min(1).max(2000),
+    content: z
+      .string()
+      .min(1)
+      .refine((value) => countWords(value) <= MAX_POST_WORDS, {
+        message: `Post must be ${MAX_POST_WORDS} words or fewer.`,
+      }),
     tags: z.array(z.string()).optional(),
   }),
 });

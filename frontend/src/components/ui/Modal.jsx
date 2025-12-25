@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useEffect, useId } from 'react';
+import { cn } from '../../lib/utils';
 
-export const Modal = ({ isOpen, onClose, title, children }) => {
+export const Modal = ({ isOpen, onClose, title, children, bodyClassName, bodyStyle }) => {
   const titleId = useId();
 
   useEffect(() => {
@@ -50,7 +51,9 @@ export const Modal = ({ isOpen, onClose, title, children }) => {
                   <X size={22} />
                 </button>
               </div>
-              <div className="modal-body">{children}</div>
+              <div className={cn('modal-body', bodyClassName)} style={bodyStyle}>
+                {children}
+              </div>
             </motion.div>
           </div>
         </>

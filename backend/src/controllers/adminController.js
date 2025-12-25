@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import User from '../models/User.js';
 import Post from '../models/Post.js';
 import Comment from '../models/Comment.js';
@@ -19,19 +20,80 @@ export const overview = async (req, res) => {
   res.json({ usersCount, postsCount, commentsCount, last7Days: daily });
 };
 
+const parseObjectId = (value) => {
+  if (!value) return null;
+  try {
+    return new mongoose.Types.ObjectId(value);
+  } catch {
+    return null;
+  }
+};
+
 export const listPosts = async (req, res) => {
-  const { page = 1, limit = 10, q, author } = req.query;
-  const skip = (page - 1) * limit;
-  const query = {};
-  if (q) query.content = { $regex: q.substring(0, 100), $options: 'i' };
-  if (author) query.authorId = author;
-  const posts = await Post.find(query)
-    .sort({ createdAt: -1 })
-    .skip(Number(skip))
-    .limit(Number(limit))
-    .populate('authorId', 'nickname avatarId');
-  const total = await Post.countDocuments(query);
-  res.json({ items: posts, page: Number(page), pages: Math.ceil(total / limit), total });
+  const pageNumber = Math.max(1, Number(req.query.page) || 1);
+  const pageSize = Math.min(50, Math.max(1, Number(req.query.limit) || 10));
+  const filters = {};
+  if (req.query.q) {
+    filters.content = { $regex: req.query.q.substring(0, 100), $options: 'i' };
+  }
+  if (req.query.author) {
+    const authorId = parseObjectId(req.query.author);
+    if (authorId) {
+      filters.authorId = authorId;
+    }
+  }
+  if (req.query.status) {
+    filters.status = req.query.status;
+  } else {
+    filters.status = { $ne: 'deleted' };
+  }
+
+  const totalItems = await Post.countDocuments(filters);
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+  const safePage = Math.min(pageNumber, totalPages);
+  const skip = (safePage - 1) * pageSize;
+
+  const posts = await Post.aggregate([
+    { $match: filters },
+    { $sort: { createdAt: -1 } },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'authorId',
+        foreignField: '_id',
+        as: 'authorDoc',
+      },
+    },
+    { $unwind: { path: '$authorDoc', preserveNullAndEmptyArrays: true } },
+    {
+      $lookup: {
+        from: 'comments',
+        let: { postId: '$_id' },
+        pipeline: [
+          { $match: { $expr: { $and: [{ $eq: ['$postId', '$$postId'] }, { $ne: ['$status', 'deleted'] }] } } },
+          { $count: 'count' },
+        ],
+        as: 'commentMeta',
+      },
+    },
+    {
+      $addFields: {
+        commentCount: { $ifNull: [{ $arrayElemAt: ['$commentMeta.count', 0] }, 0] },
+        authorId: '$authorDoc',
+      },
+    },
+    { $project: { commentMeta: 0, authorDoc: 0 } },
+    { $skip: skip },
+    { $limit: pageSize },
+  ]);
+
+  res.json({
+    items: posts,
+    page: safePage,
+    pageSize,
+    totalItems,
+    totalPages,
+  });
 };
 
 export const deletePostAdmin = async (req, res) => {
@@ -40,23 +102,56 @@ export const deletePostAdmin = async (req, res) => {
   if (!post) return res.status(404).json({ message: 'Post not found' });
   post.status = 'deleted';
   await post.save();
+  await Comment.updateMany(
+    { postId: post._id, status: { $ne: 'deleted' } },
+    { status: 'deleted', deletedAt: new Date(), deletedBy: req.user._id }
+  );
   await AdminAudit.create({ adminId: req.user._id, action: 'delete_post', targetType: 'Post', targetId: post._id });
-  res.json({ message: 'Deleted' });
+  res.json({ ok: true, deletedId: post._id });
 };
 
 export const listComments = async (req, res) => {
-  const { page = 1, limit = 10, q, postId } = req.query;
-  const skip = (page - 1) * limit;
-  const query = {};
-  if (q) query.content = { $regex: q.substring(0, 100), $options: 'i' };
-  if (postId) query.postId = postId;
-  const comments = await Comment.find(query)
+  const pageNumber = Math.max(1, Number(req.query.page) || 1);
+  const pageSize = Math.min(50, Math.max(1, Number(req.query.limit) || 10));
+  const filters = {};
+  if (req.query.q) {
+    filters.content = { $regex: req.query.q.substring(0, 100), $options: 'i' };
+  }
+  if (req.query.postId) {
+    const linkedPostId = parseObjectId(req.query.postId);
+    if (linkedPostId) {
+      filters.postId = linkedPostId;
+    }
+  }
+  if (req.query.status) {
+    filters.status = req.query.status;
+  } else {
+    filters.status = { $ne: 'deleted' };
+  }
+
+  const totalItems = await Comment.countDocuments(filters);
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+  const safePage = Math.min(pageNumber, totalPages);
+  const skip = (safePage - 1) * pageSize;
+
+  const comments = await Comment.find(filters)
     .sort({ createdAt: -1 })
-    .skip(Number(skip))
-    .limit(Number(limit))
-    .populate('authorId', 'nickname avatarId');
-  const total = await Comment.countDocuments(query);
-  res.json({ items: comments, page: Number(page), pages: Math.ceil(total / limit), total });
+    .skip(skip)
+    .limit(pageSize)
+    .populate('authorId', 'nickname avatarId')
+    .populate({
+      path: 'postId',
+      select: 'content authorId',
+      populate: { path: 'authorId', select: 'nickname' },
+    });
+
+  res.json({
+    items: comments,
+    page: safePage,
+    pageSize,
+    totalItems,
+    totalPages,
+  });
 };
 
 export const deleteCommentAdmin = async (req, res) => {
@@ -64,7 +159,9 @@ export const deleteCommentAdmin = async (req, res) => {
   const comment = await Comment.findById(id);
   if (!comment) return res.status(404).json({ message: 'Comment not found' });
   comment.status = 'deleted';
+  comment.deletedAt = new Date();
+  comment.deletedBy = req.user._id;
   await comment.save();
   await AdminAudit.create({ adminId: req.user._id, action: 'delete_comment', targetType: 'Comment', targetId: comment._id });
-  res.json({ message: 'Deleted' });
+  res.json({ ok: true, deletedId: comment._id });
 };

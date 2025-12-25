@@ -1,10 +1,25 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { toggleReaction } from '../services/api';
 import { Button } from './ui/Button';
 
-export default function ReactionBar({ post }) {
-  const [counts, setCounts] = useState(post.reactionCounts);
+const reactions = [
+  { type: 'heart', icon: '❤️', label: 'Yêu thích' },
+  { type: 'hug', icon: '🤗', label: 'Ủng hộ' },
+  { type: 'thanks', icon: '🙏', label: 'Cảm ơn' },
+];
+
+export default function ReactionBar({
+  post,
+  onViewThread,
+  showCommentCount = true,
+}) {
+  const [counts, setCounts] = useState(post?.reactionCounts || {});
   const [busy, setBusy] = useState(false);
+
+  const totalComments = useMemo(
+    () => post?.commentCount ?? 0,
+    [post]
+  );
 
   const onReact = async (type) => {
     if (busy) return;
@@ -20,34 +35,34 @@ export default function ReactionBar({ post }) {
   };
 
   return (
-    <div style={{ display: 'flex', gap: '0.5rem' }}>
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => onReact('heart')}
-        disabled={busy}
-        style={{ padding: '4px 8px' }}
-      >
-        ❤️ {counts.heart}
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => onReact('hug')}
-        disabled={busy}
-        style={{ padding: '4px 8px' }}
-      >
-        🫂 {counts.hug}
-      </Button>
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => onReact('thanks')}
-        disabled={busy}
-        style={{ padding: '4px 8px' }}
-      >
-        🙏 {counts.thanks}
-      </Button>
+    <div className="flex flex-wrap items-center gap-2">
+      {reactions.map(({ type, icon, label }) => (
+        <Button
+          key={type}
+          variant="ghost"
+          size="sm"
+          onClick={() => onReact(type)}
+          disabled={busy}
+          aria-label={label}
+          className="px-3"
+        >
+          <span aria-hidden="true">{icon}</span> {counts[type] ?? 0}
+        </Button>
+      ))}
+      {showCommentCount && (
+        <div className="border-r border-[var(--border)] h-5" />
+      )}
+      {showCommentCount && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onViewThread}
+          disabled={!onViewThread}
+          className="px-3"
+        >
+          Bình luận ({totalComments})
+        </Button>
+      )}
     </div>
   );
 }

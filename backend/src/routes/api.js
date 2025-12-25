@@ -1,7 +1,7 @@
 
 import express from 'express';
 import { requestOTP, verifyOTP, logout, getMe } from '../controllers/authController.js';
-import { createPost, getPosts, toggleReaction, updatePost, deletePost } from '../controllers/postController.js';
+import { createPost, getPosts, toggleReaction, updatePost, deletePost, getPostById } from '../controllers/postController.js';
 import { createReport } from '../controllers/reportController.js';
 import { protect, adminOnly } from '../middleware/auth.js';
 import {
@@ -63,6 +63,7 @@ router.patch('/users/me/profile-note', protect, validate(updateProfileNoteSchema
 
 // Posts
 router.get('/posts', protect, getPosts);
+router.get('/posts/:id', protect, getPostById);
 router.post('/posts', protect, postLimiter, validate(postSchema), createPost);
 router.post('/posts/:id/reactions/:type', protect, toggleReaction);
 router.patch('/posts/:id', protect, updatePost);

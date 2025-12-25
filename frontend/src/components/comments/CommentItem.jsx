@@ -4,7 +4,7 @@ import { Button } from '../ui/Button';
 import { voteComment, deleteComment } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { Avatar } from '../ui/Avatar';
-import { formatDistanceToNow } from 'date-fns';
+import { formatRelativeTime } from '../../utils/relativeTime';
 
 export const CommentItem = ({ comment, onDelete }) => {
   const { user } = useAuth();
@@ -44,7 +44,7 @@ export const CommentItem = ({ comment, onDelete }) => {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm('Delete this comment?')) return;
+    if (!window.confirm('Xóa bình luận này?')) return;
     try {
       await deleteComment(comment._id);
       if (onDelete) onDelete(comment._id);
@@ -56,50 +56,50 @@ export const CommentItem = ({ comment, onDelete }) => {
   const isOwner = user && user._id === comment.authorId._id;
   const isAdmin = user && user.role === 'admin';
 
+  const timeLabel = formatRelativeTime(comment.createdAt);
+
   return (
-    <div style={{ padding: '1rem 0', borderBottom: '1px solid var(--border)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+    <div className="border-b border-[var(--border)] py-3 last:border-b-0">
+      <div className="flex items-start gap-3">
         <Avatar user={comment.authorId} size={32} />
-        <div>
-          <span style={{ fontWeight: 600 }}>{comment.authorId.nickname || 'Anonymous'}</span>
-          <span style={{ marginLeft: '0.5rem', fontSize: '0.875rem', color: 'var(--textMuted)' }}>
-            {comment.createdAt && formatDistanceToNow(new Date(comment.createdAt))} ago
-          </span>
+        <div className="flex-1">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-[var(--textMuted)]">
+            <span className="font-semibold text-[var(--text)]">
+              {comment.authorId.nickname || 'Anonymous'}
+            </span>
+            <span aria-hidden>•</span>
+            <span>{timeLabel}</span>
+          </div>
+          <p className="text-sm text-[var(--text)] leading-relaxed mt-1">{comment.content}</p>
+          <div className="mt-2 flex items-center gap-3 text-xs">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleVote(1)}
+              className={myVote === 1 ? 'text-[var(--blue)]' : 'text-[var(--textMuted)]'}
+            >
+              <ThumbsUp size={16} /> {votes.likes}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => handleVote(-1)}
+              className={myVote === -1 ? 'text-[var(--orange)]' : 'text-[var(--textMuted)]'}
+            >
+              <ThumbsDown size={16} /> {votes.dislikes}
+            </Button>
+            {(isOwner || isAdmin) && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleDelete}
+                className="ml-auto text-[var(--textMuted)]"
+              >
+                <Trash2 size={16} />
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
-
-      <p style={{ color: 'var(--text)', marginBottom: '0.75rem', lineHeight: '1.6' }}>
-        {comment.content}
-      </p>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => handleVote(1)}
-          style={{ color: myVote === 1 ? 'var(--blue)' : 'var(--textMuted)' }}
-        >
-          <ThumbsUp size={16} /> {votes.likes}
-        </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => handleVote(-1)}
-          style={{ color: myVote === -1 ? 'var(--orange)' : 'var(--textMuted)' }}
-        >
-          <ThumbsDown size={16} />
-        </Button>
-
-        {(isOwner || isAdmin) && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleDelete}
-            style={{ marginLeft: 'auto', color: 'var(--textMuted)' }}
-          >
-            <Trash2 size={16} />
-          </Button>
-        )}
       </div>
     </div>
   );
