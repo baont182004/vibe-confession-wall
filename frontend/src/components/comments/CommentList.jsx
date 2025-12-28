@@ -107,7 +107,7 @@ export const CommentList = forwardRef(
       <div
         ref={listRef}
         className={cn(
-          'flex h-full min-h-0 flex-col overflow-y-scroll space-y-3 thread-comment-scroll',
+          'flex h-full min-h-0 flex-col gap-4 overflow-y-scroll thread-comment-scroll',
           className
         )}
         style={{

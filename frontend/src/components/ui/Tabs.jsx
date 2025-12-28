@@ -6,7 +6,7 @@ export const Tabs = TabsPrimitive.Root;
 export const TabsList = ({ className, ...props }) => (
   <TabsPrimitive.List
     className={cn(
-      'inline-flex h-10 items-center justify-center rounded-lg bg-[var(--surface2)] p-1 text-sm',
+      'inline-flex h-11 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface2)] p-1 text-sm shadow-sm',
       className
     )}
     {...props}
@@ -16,7 +16,7 @@ export const TabsList = ({ className, ...props }) => (
 export const TabsTrigger = ({ className, ...props }) => (
   <TabsPrimitive.Trigger
     className={cn(
-      'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium text-[var(--textMuted)] transition-all data-[state=active]:bg-[var(--surface)] data-[state=active]:text-text data-[state=active]:shadow-sm',
+      'inline-flex items-center justify-center whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--textMuted)] transition-all data-[state=active]:bg-[rgba(222,181,215,0.35)] data-[state=active]:text-text data-[state=active]:shadow-[0_8px_18px_rgba(222,181,215,0.25)]',
       className
     )}
     {...props}

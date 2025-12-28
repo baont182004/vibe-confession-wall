@@ -488,7 +488,7 @@ export default function WeeklyPlanPage() {
                     'rounded-md border px-3 py-2 text-sm',
                     status.type === 'error'
                       ? 'border-[var(--red)]/40 text-[var(--red)] bg-[var(--red)]/10'
-                      : 'border-[var(--green)]/40 text-[var(--green)] bg-[var(--green)]/10'
+                      : 'border-warning-border text-warning-strong bg-warning-soft'
                   )}>
                     {status.message}
                   </div>

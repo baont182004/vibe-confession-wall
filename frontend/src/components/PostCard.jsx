@@ -35,7 +35,7 @@ export const PostCard = ({ post, currentUser, onViewThread, onDelete }) => {
   }, [post]);
 
   return (
-    <div className="card rounded-xl border-[var(--border)] bg-[var(--surface2)] p-5 space-y-4 shadow-none">
+    <div className="card glass rounded-2xl border border-[var(--border)] p-5 space-y-4 shadow-[var(--shadow-soft)]">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <Avatar user={author} size={46} />
@@ -56,7 +56,7 @@ export const PostCard = ({ post, currentUser, onViewThread, onDelete }) => {
             <PopoverTrigger asChild>
               <button
                 type="button"
-                className="text-[var(--textMuted)] hover:text-[var(--text)]"
+                className="rounded-full border border-transparent p-1 text-[var(--textMuted)] transition hover:border-[var(--divider)] hover:text-[var(--text)]"
                 aria-label="Thêm hành động"
               >
                 <MoreHorizontal size={20} />

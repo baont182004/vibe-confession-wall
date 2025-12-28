@@ -1,6 +1,6 @@
 import { parseDateKeyLocal } from './dateKey';
 
-const WEEKDAY_LABELS = ['Ch? nh?t', 'Th? 2', 'Th? 3', 'Th? 4', 'Th? 5', 'Th? 6', 'Th? 7'];
+const WEEKDAY_LABELS = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
 
 export const getWeekdayInfoFromDateKey = (dateKey) => {
   const date = parseDateKeyLocal(dateKey);

@@ -3,7 +3,13 @@ import { cn } from '../../lib/utils';
 const StatusRow = ({ label, ok }) => (
   <div className="flex items-center justify-between text-sm">
     <span className="text-[var(--textMuted)]">{label}</span>
-    <span className={cn(ok ? 'text-[var(--green)]' : 'text-[var(--red)]')}>
+    <span
+      className={cn(
+        ok
+          ? 'rounded-full border border-warning-border bg-warning-soft px-2 py-0.5 text-xs font-semibold text-warning-strong'
+          : 'text-[var(--red)]'
+      )}
+    >
       {ok ? 'Đạt' : 'Chưa đạt'}
     </span>
   </div>
@@ -32,7 +38,7 @@ export const DailyStreakStatus = ({
       <StatusRow label="Kế hoạch" ok={!!status.dayPlanDone} />
       <StatusRow label="Đủ điều kiện" ok={!!status.qualified} />
       {status.qualified && status.awardedAt && (
-        <div className="text-xs text-[var(--green)]">Hôm nay đã ghi nhận chuỗi.</div>
+        <div className="text-xs text-warning-strong">Hôm nay đã ghi nhận chuỗi.</div>
       )}
     </>
   );

@@ -68,7 +68,7 @@ export default function Layout() {
     'streak-chip',
     currentStreak === 0 && 'is-muted',
     currentStreak >= 15 && 'is-hot',
-    currentStreak >= 5 && currentStreak < 15 && 'shadow-[0_0_0_2px_rgba(255,180,84,0.35)]'
+    currentStreak >= 5 && currentStreak < 15 && 'shadow-[0_0_0_2px_rgba(255,210,115,0.5)]'
   );
 
   useEffect(() => {
@@ -193,7 +193,7 @@ export default function Layout() {
             >
               <Flame
                 size={16}
-                className={currentStreak === 0 ? 'text-[var(--textMuted)]' : 'text-[var(--accent-3)]'}
+                className={currentStreak === 0 ? 'text-[var(--textMuted)]' : 'text-warning-strong'}
               />
               <span>{currentStreak}</span>
             </button>

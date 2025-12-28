@@ -59,7 +59,7 @@ export const CommentItem = ({ comment, onDelete }) => {
   const timeLabel = formatRelativeTime(comment.createdAt);
 
   return (
-    <div className="border-b border-[var(--border)] py-3 last:border-b-0">
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3">
       <div className="flex items-start gap-3">
         <Avatar user={comment.authorId} size={32} />
         <div className="flex-1">
@@ -84,7 +84,7 @@ export const CommentItem = ({ comment, onDelete }) => {
               variant="ghost"
               size="sm"
               onClick={() => handleVote(-1)}
-              className={myVote === -1 ? 'text-[var(--orange)]' : 'text-[var(--textMuted)]'}
+              className={myVote === -1 ? 'text-warning-strong' : 'text-[var(--textMuted)]'}
             >
               <ThumbsDown size={16} /> {votes.dislikes}
             </Button>

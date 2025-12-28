@@ -49,7 +49,7 @@ export const PostComposer = ({ user, onPostCreated, className }) => {
   };
 
   return (
-    <Card className={cn('overflow-hidden', className)}>
+    <Card className={cn('overflow-hidden border border-[var(--border)]', className)}>
       <form onSubmit={handleSubmit} className="flex flex-col">
         <div className="flex gap-4 px-5 pt-5">
           <Avatar user={user} size={48} />
@@ -63,7 +63,7 @@ export const PostComposer = ({ user, onPostCreated, className }) => {
             disabled={isSubmitting}
           />
         </div>
-        <div className="flex items-center justify-between gap-4 border-t border-[var(--border)] bg-[var(--surface2)] px-5 py-4 text-xs text-[var(--textMuted)]">
+        <div className="flex items-center justify-between gap-4 border-t border-[var(--divider)] bg-[rgba(254,197,230,0.35)] px-5 py-4 text-xs text-[var(--textMuted)]">
           <div>
             <span>Chia sẻ suy nghĩ, tạo năng lượng tích cực.</span>
             <div className="text-[0.7rem] text-[var(--textMuted)]">

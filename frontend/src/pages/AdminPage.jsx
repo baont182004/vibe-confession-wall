@@ -27,10 +27,10 @@ const Toast = ({ message, variant = 'success', onClose }) => {
   const tone =
     variant === 'error'
       ? 'border-[var(--red)]/40 bg-[var(--red)]/10 text-[var(--red)]'
-      : 'border-[var(--green)]/40 bg-[var(--green)]/10 text-[var(--green)]';
+      : 'border-warning-border bg-warning-soft text-warning-strong';
 
   return (
-    <div className={`fixed bottom-6 right-6 z-50 rounded-xl border px-4 py-3 text-sm shadow-lg ${tone}`}>
+    <div className={`fixed bottom-6 right-6 z-50 rounded-2xl border px-4 py-3 text-sm shadow-[var(--shadow)] backdrop-blur ${tone}`}>
       <div className="flex items-center gap-3">
         <span>{message}</span>
         <Button variant="ghost" size="sm" onClick={onClose}>
@@ -112,8 +112,8 @@ const MetricCard = ({ label, value, active, onClick }) => (
     className={cn(
       'flex flex-col gap-1 rounded-2xl border bg-[var(--surface)] p-5 text-left transition-all focus-visible:outline-none',
       active
-        ? 'border-[var(--accent-1)] shadow-[0_20px_45px_rgba(57,214,197,0.25)]'
-        : 'border-[var(--border)] hover:border-[var(--accent-1)]'
+        ? 'border-[var(--accent-1)] shadow-[0_20px_45px_rgba(222,181,215,0.35)]'
+        : 'border-[var(--border)] hover:border-[var(--border)]'
     )}
   >
     <span className="text-xs uppercase tracking-[0.4em] text-[var(--textMuted)]">{label}</span>
@@ -348,7 +348,7 @@ export default function AdminPage() {
     <div className="space-y-8 pb-10">
       <Toast message={toast.message} variant={toast.variant} onClose={() => setToast({ message: '', variant: 'success' })} />
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <h1 className="text-lg font-semibold tracking-[0.15em] uppercase">ADMIN · Bảng điều hành</h1>
+        <h1 className="gradient-text text-lg font-semibold tracking-[0.18em] uppercase">ADMIN · Bảng điều hành</h1>
         <div className="flex flex-col items-end gap-1">
           <Button variant="secondary" size="sm" onClick={handleRefresh} disabled={refreshing}>
             {refreshing ? 'Đang làm mới...' : 'Làm mới'}
@@ -377,7 +377,7 @@ export default function AdminPage() {
         ))}
       </div>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-      <TabsList className="grid w-full grid-cols-3 gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-1">
+      <TabsList className="grid w-full grid-cols-3 gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface2)] p-1">
         <TabsTrigger value="posts" className="px-3 py-2 text-xs uppercase tracking-[0.3em]">
           Bài viết
         </TabsTrigger>
@@ -391,7 +391,7 @@ export default function AdminPage() {
 
       <TabsContent value="posts">
         <Card className="space-y-4 border border-[var(--border)] p-6">
-          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--border)] pb-3">
+          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--divider)] pb-3">
             <div className="space-y-2">
               <p className="text-xs uppercase tracking-[0.3em] text-[var(--textMuted)]">Bộ lọc</p>
               <div className="flex flex-wrap gap-3">
@@ -465,16 +465,16 @@ export default function AdminPage() {
                     Array.from({ length: 4 }).map((_, idx) => (
                       <tr key={`skeleton-post-${idx}`} className="animate-pulse">
                         <td className="px-4 py-3">
-                          <div className="h-4 w-20 rounded bg-[var(--surface)]" />
+                          <div className="h-4 w-20 rounded bg-[rgba(222,181,215,0.25)]" />
                         </td>
                         <td className="px-4 py-3">
-                          <div className="h-4 w-52 rounded bg-[var(--surface)]" />
+                          <div className="h-4 w-52 rounded bg-[rgba(222,181,215,0.25)]" />
                         </td>
                         <td className="px-4 py-3">
-                          <div className="h-4 w-16 rounded bg-[var(--surface)]" />
+                          <div className="h-4 w-16 rounded bg-[rgba(222,181,215,0.25)]" />
                         </td>
                         <td className="px-4 py-3">
-                          <div className="h-4 w-24 rounded bg-[var(--surface)]" />
+                          <div className="h-4 w-24 rounded bg-[rgba(222,181,215,0.25)]" />
                         </td>
                         <td className="px-4 py-3" />
                       </tr>
@@ -508,7 +508,7 @@ export default function AdminPage() {
                       ].filter(Boolean);
 
                       return (
-                        <tr key={post._id} className="border-b border-[var(--border)]">
+                        <tr key={post._id} className="border-b border-[var(--divider)] hover:bg-[rgba(254,197,230,0.35)]">
                           <td className="px-4 py-3">
                             <div className="text-sm font-semibold">{post.authorId?.nickname || 'Không rõ'}</div>
                             <div className="text-xs text-[var(--textMuted)]">
@@ -533,7 +533,7 @@ export default function AdminPage() {
                 </tbody>
               </table>
             </div>
-            <div className="flex flex-col items-start gap-2 border-t border-[var(--border)] px-4 py-3 text-sm text-[var(--textMuted)] sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col items-start gap-2 border-t border-[var(--divider)] px-4 py-3 text-sm text-[var(--textMuted)] sm:flex-row sm:items-center sm:justify-between">
               <span>
                 Hiển thị trang {postsPage} / {postsTotalPages} · Tổng {postsTotalItems} bài
               </span>
@@ -562,7 +562,7 @@ export default function AdminPage() {
 
       <TabsContent value="comments">
         <Card className="space-y-4 border border-[var(--border)] p-6">
-          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--border)] pb-3">
+          <div className="flex flex-wrap items-end justify-between gap-3 border-b border-[var(--divider)] pb-3">
             <div className="space-y-2">
               <p className="text-xs uppercase tracking-[0.3em] text-[var(--textMuted)]">Bộ lọc</p>
               <div className="flex flex-wrap gap-3">
@@ -639,16 +639,16 @@ export default function AdminPage() {
                     Array.from({ length: 3 }).map((_, idx) => (
                       <tr key={`skeleton-comment-${idx}`} className="animate-pulse">
                         <td className="px-4 py-3">
-                          <div className="h-4 w-20 rounded bg-[var(--surface)]" />
+                          <div className="h-4 w-20 rounded bg-[rgba(222,181,215,0.25)]" />
                         </td>
                         <td className="px-4 py-3">
-                          <div className="h-4 w-52 rounded bg-[var(--surface)]" />
+                          <div className="h-4 w-52 rounded bg-[rgba(222,181,215,0.25)]" />
                         </td>
                         <td className="px-4 py-3">
-                          <div className="h-4 w-32 rounded bg-[var(--surface)]" />
+                          <div className="h-4 w-32 rounded bg-[rgba(222,181,215,0.25)]" />
                         </td>
                         <td className="px-4 py-3">
-                          <div className="h-4 w-28 rounded bg-[var(--surface)]" />
+                          <div className="h-4 w-28 rounded bg-[rgba(222,181,215,0.25)]" />
                         </td>
                         <td className="px-4 py-3" />
                       </tr>
@@ -662,7 +662,7 @@ export default function AdminPage() {
                   )}
                   {!commentsLoading &&
                     commentsItems.map((comment) => (
-                      <tr key={comment._id} className="border-b border-[var(--border)]">
+                      <tr key={comment._id} className="border-b border-[var(--divider)] hover:bg-[rgba(254,197,230,0.35)]">
                         <td className="px-4 py-3">
                           <div className="text-sm font-semibold">{comment.authorId?.nickname || 'Không rõ'}</div>
                           <div className="text-xs text-[var(--textMuted)]">
@@ -698,7 +698,7 @@ export default function AdminPage() {
                 </tbody>
               </table>
             </div>
-            <div className="flex flex-col items-start gap-2 border-t border-[var(--border)] px-4 py-3 text-sm text-[var(--textMuted)] sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col items-start gap-2 border-t border-[var(--divider)] px-4 py-3 text-sm text-[var(--textMuted)] sm:flex-row sm:items-center sm:justify-between">
               <span>
                 Hiển thị trang {commentsPage} / {commentsTotalPages} · Tổng {commentsTotalItems} bình luận
               </span>
@@ -733,17 +733,17 @@ export default function AdminPage() {
             <p className="text-sm text-[var(--textMuted)]">Dữ liệu cập nhật gần nhất từ tổng quan hệ thống.</p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
-            <div className="rounded-2xl border border-[var(--border)] p-4">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface2)] p-4">
               <p className="text-xs uppercase text-[var(--textMuted)]">Tổng cộng</p>
               <p className="text-3xl font-semibold">{overview ? overview.usersCount : '…'}</p>
             </div>
-            <div className="rounded-2xl border border-[var(--border)] p-4">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface2)] p-4">
               <p className="text-xs uppercase text-[var(--textMuted)]">7 ngày gần nhất</p>
               <p className="text-3xl font-semibold">
                 {overview ? overview.last7Days?.reduce((sum, entry) => sum + (entry.count || 0), 0) : '…'}
               </p>
             </div>
-            <div className="rounded-2xl border border-[var(--border)] p-4">
+            <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface2)] p-4">
               <p className="text-xs uppercase text-[var(--textMuted)]">Người mới mỗi ngày</p>
               <ul className="space-y-1 text-sm text-[var(--textMuted)]">
                 {overview?.last7Days?.map((entry) => (
@@ -767,7 +767,7 @@ export default function AdminPage() {
       title={`Bài viết của ${previewPost?.authorId?.nickname || 'Không rõ'}`}
     >
       <div className="space-y-4">
-        <div className="space-y-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+        <div className="space-y-2 rounded-2xl border border-[var(--border)] bg-[var(--surface2)] p-4">
           <p className="text-xs text-[var(--textMuted)]">
             {previewPost ? formatDateTime(previewPost.createdAt) : 'Đang tải...'}
           </p>

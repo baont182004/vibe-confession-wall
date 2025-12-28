@@ -24,7 +24,7 @@ export const SelectContent = ({ className, children, ...props }) => (
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       className={cn(
-        'z-50 min-w-[8rem] overflow-hidden rounded-md border border-[var(--border)] bg-[var(--surface)] text-text shadow-lg animate-in fade-in-80',
+        'z-50 min-w-[8rem] overflow-hidden rounded-md border border-[var(--border)] bg-[var(--surface)] text-text shadow-[0_18px_40px_rgba(222,181,215,0.25)] animate-in fade-in-80 backdrop-blur',
         className
       )}
       {...props}
@@ -45,7 +45,7 @@ export const SelectContent = ({ className, children, ...props }) => (
 export const SelectItem = ({ className, children, ...props }) => (
   <SelectPrimitive.Item
     className={cn(
-      'relative flex w-full cursor-pointer select-none items-center rounded-sm px-8 py-2 text-sm outline-none hover:bg-[var(--surface2)] focus:bg-[var(--surface2)]',
+      'relative flex w-full cursor-pointer select-none items-center rounded-sm px-8 py-2 text-sm outline-none hover:bg-[rgba(222,181,215,0.25)] focus:bg-[rgba(222,181,215,0.25)]',
       className
     )}
     {...props}

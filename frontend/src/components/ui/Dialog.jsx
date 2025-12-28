@@ -12,7 +12,7 @@ export const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => 
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      'fixed inset-0 z-50 bg-black/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in',
+      'fixed inset-0 z-50 bg-black/30 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in',
       className
     )}
     {...props}
@@ -26,13 +26,13 @@ export const DialogContent = React.forwardRef(({ className, children, ...props }
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        'fixed left-1/2 top-1/2 z-50 grid w-full max-w-xl translate-x-[-50%] translate-y-[-50%] gap-4 border border-[var(--border)] bg-[var(--bg1)] p-6 shadow-xl duration-200 sm:rounded-xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in',
+        'fixed left-1/2 top-1/2 z-50 grid w-full max-w-xl translate-x-[-50%] translate-y-[-50%] gap-4 border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[0_24px_50px_rgba(222,181,215,0.25)] duration-200 sm:rounded-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in',
         className
       )}
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-md p-1 text-[var(--textMuted)] hover:bg-[var(--surface2)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]">
+      <DialogPrimitive.Close className="absolute right-4 top-4 rounded-md p-1 text-[var(--textMuted)] hover:bg-[rgba(222,181,215,0.25)] focus:outline-none focus:ring-2 focus:ring-[var(--blue)]">
         <X size={18} />
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>

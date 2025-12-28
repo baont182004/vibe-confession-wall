@@ -10,16 +10,32 @@ export default {
   theme: {
     extend: {
       colors: {
+        app: {
+          bg: '#FFF7FB',
+          tint: '#FEC5E6',
+        },
         background: 'var(--bg0)',
         backgroundAlt: 'var(--bg1)',
+        surfaceTint: 'var(--surfaceTint)',
         surface: {
           DEFAULT: 'var(--surface)',
           2: 'var(--surface2)',
         },
         border: 'var(--border)',
+        divider: 'var(--divider)',
         text: {
           DEFAULT: 'var(--text)',
+          strong: 'var(--textStrong)',
           muted: 'var(--textMuted)',
+        },
+        primary: 'var(--primary)',
+        secondary: 'var(--secondary)',
+        accent: 'var(--accent)',
+        warning: {
+          DEFAULT: 'var(--warning)',
+          strong: 'var(--warningStrong)',
+          soft: 'var(--warningSoft)',
+          border: 'var(--warningBorder)',
         },
         blue: 'var(--blue)',
         cyan: 'var(--cyan)',
@@ -37,7 +53,7 @@ export default {
         card: 'var(--shadow)',
       },
       fontFamily: {
-        sans: ['Sora', 'Inter', ...defaultTheme.fontFamily.sans],
+        sans: ['"Be Vietnam Pro"', 'Sora', 'Inter', ...defaultTheme.fontFamily.sans],
       },
     },
   },

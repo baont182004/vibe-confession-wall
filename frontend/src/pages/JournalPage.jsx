@@ -23,10 +23,10 @@ const RECENT_DAYS = 10;
 const AUTOSAVE_DELAY = 2500;
 
 const MOOD_OPTIONS = [
-  { value: 'great', label: 'Rất tốt', tone: 'text-[var(--green)]', badge: 'bg-[var(--green)]/15 text-[var(--green)] border-[var(--green)]/30', card: 'border-[var(--green)]/30' },
+  { value: 'great', label: 'Rất tốt', tone: 'text-warning-strong', badge: 'bg-warning-soft text-warning-strong border-warning-border', card: 'border-warning-border' },
   { value: 'good', label: 'Tốt', tone: 'text-[var(--accent-1)]', badge: 'bg-[var(--accent-1)]/15 text-[var(--accent-1)] border-[var(--accent-1)]/30', card: 'border-[var(--accent-1)]/30' },
   { value: 'neutral', label: 'Bình thường', tone: 'text-[var(--textMuted)]', badge: 'bg-[var(--surface2)] text-text border-[var(--border)]', card: 'border-[var(--border)]' },
-  { value: 'low', label: 'Tệ', tone: 'text-[var(--accent-3)]', badge: 'bg-[var(--accent-3)]/15 text-[var(--accent-3)] border-[var(--accent-3)]/30', card: 'border-[var(--accent-3)]/30' },
+  { value: 'low', label: 'Tệ', tone: 'text-warning-strong', badge: 'bg-warning-soft text-warning-strong border-warning-border', card: 'border-warning-border' },
   { value: 'sad', label: 'Rất tệ', tone: 'text-[var(--red)]', badge: 'bg-[var(--red)]/15 text-[var(--red)] border-[var(--red)]/30', card: 'border-[var(--red)]/30' },
 ];
 
@@ -580,7 +580,7 @@ export default function JournalPage() {
     <Card className="p-4 space-y-3">
       <div className="flex items-center justify-between">
         <div className="text-sm font-semibold">Tổng quan</div>
-        <Sparkles size={16} className="text-[var(--accent-3)]" />
+        <Sparkles size={16} className="text-warning-strong" />
       </div>
       <div className="flex flex-wrap items-center gap-2">
         <StreakBadge
@@ -665,7 +665,7 @@ export default function JournalPage() {
                 className={cn(
                   'rounded-full border px-3 py-1 text-xs font-semibold transition',
                   option.badge,
-                  mood === option.value ? 'shadow-[0_0_0_2px_rgba(57,214,197,0.25)]' : 'opacity-80 hover:opacity-100'
+                  mood === option.value ? 'shadow-[0_0_0_2px_rgba(222,181,215,0.4)]' : 'opacity-80 hover:opacity-100'
                 )}
               >
                 {option.label}

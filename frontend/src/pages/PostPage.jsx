@@ -56,12 +56,12 @@ const PostPage = () => {
   const hasStreak = post?.authorId?.currentStreak > 1;
 
   return (
-    <div className="px-3 py-6 sm:px-0" style={{ maxWidth: 760, margin: '0 auto', paddingBottom: '3rem' }}>
-      <div className="flex items-center justify-between gap-3 mb-4">
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-5 px-3 py-6 pb-12 sm:px-0">
+      <div className="flex items-center justify-between gap-3">
         <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="px-3">
           Quay lại
         </Button>
-        <h1 className="text-lg font-semibold tracking-[0.3em] uppercase">Bài viết</h1>
+        <h1 className="gradient-text text-lg font-semibold tracking-[0.3em] uppercase">Bài viết</h1>
         <div style={{ width: 88 }} />
       </div>
 
@@ -80,7 +80,7 @@ const PostPage = () => {
       )}
 
       {post && (
-        <Card className="space-y-5 border border-[var(--surface)]">
+        <Card className="space-y-5 border border-[var(--border)]">
           <section className="space-y-3">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
@@ -95,7 +95,7 @@ const PostPage = () => {
               {hasStreak && <StreakChip count={post.authorId.currentStreak} />}
             </div>
             <p
-              className="text-[var(--text)] leading-relaxed"
+              className="text-[var(--text)] leading-relaxed text-[1.05rem]"
               style={{ lineHeight: 1.7 }}
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
@@ -108,8 +108,8 @@ const PostPage = () => {
         </Card>
       )}
 
-      <Card className="mt-4 border border-[var(--border)]">
-        <div className="border-b border-[var(--border)] px-5 py-3 text-sm font-semibold">
+      <Card className="border border-[var(--border)]">
+        <div className="border-b border-[var(--divider)] px-5 py-3 text-sm font-semibold">
           Bình luận ({stats.total ?? post?.commentCount ?? 0})
         </div>
         <div className="h-[60vh] overflow-hidden">

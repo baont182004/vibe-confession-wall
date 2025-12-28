@@ -12,7 +12,7 @@ const Toast = ({ message, variant = 'success', onClose }) => {
   if (!message) return null;
   const styles = variant === 'error'
     ? 'border-[var(--red)]/40 bg-[var(--red)]/10 text-[var(--red)]'
-    : 'border-[var(--green)]/40 bg-[var(--green)]/10 text-[var(--green)]';
+    : 'border-warning-border bg-warning-soft text-warning-strong';
 
   return (
     <div className={`fixed bottom-6 right-6 z-50 rounded-xl border px-4 py-3 text-sm shadow-lg ${styles}`}>

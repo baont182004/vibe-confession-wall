@@ -40,7 +40,7 @@ export const CommentComposerSticky = ({ postId, onCommentAdded, autoFocus = true
   return (
     <div className="thread-composer-shell sticky bottom-0 z-30">
       <div className="thread-composer-gradient pointer-events-none" aria-hidden="true" />
-      <div className="relative border-t border-[var(--border)] bg-[var(--bg1)] px-5 py-4 backdrop-blur shadow-[0_-16px_30px_rgba(0,0,0,0.7)]">
+      <div className="relative border-t border-[var(--divider)] bg-[rgba(255,255,255,0.92)] px-5 py-4 backdrop-blur shadow-[0_-16px_30px_rgba(222,181,215,0.2)]">
         <form onSubmit={handleSubmit} className="flex flex-col gap-2">
           <div className="flex gap-3">
             <TextArea

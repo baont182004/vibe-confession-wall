@@ -4,15 +4,20 @@ import { cva } from 'class-variance-authority';
 import { cn } from '../../lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-[calc(var(--radius)-4px)] border border-transparent font-semibold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg0)] disabled:pointer-events-none disabled:opacity-60 active:scale-[0.98]',
+  'inline-flex items-center justify-center gap-2 rounded-[calc(var(--radius)-4px)] border border-transparent font-semibold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--blue)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg0)] disabled:pointer-events-none disabled:opacity-60 active:scale-[0.98] shadow-sm',
   {
     variants: {
       variant: {
-        primary: 'bg-[var(--blue)] text-[var(--bg0)] shadow-card hover:bg-[var(--blue)]/90',
-        secondary: 'bg-[var(--surface)] text-text border-[var(--border)] hover:bg-[var(--surface2)]',
-        ghost: 'bg-transparent text-[var(--textMuted)] hover:bg-[var(--surface)] hover:text-text',
-        outline: 'border-[var(--border)] bg-transparent text-text hover:bg-[var(--surface)]',
-        destructive: 'bg-[var(--red)] text-[var(--bg0)] hover:bg-[var(--red)]/90',
+        primary:
+          'bg-[linear-gradient(135deg,#BFAEE3,#DEB5D7_45%,#FEC5E6)] text-[var(--textStrong)] shadow-[0_10px_22px_rgba(222,181,215,0.35)] hover:brightness-105 hover:shadow-[0_14px_26px_rgba(191,174,227,0.35)]',
+        secondary:
+          'bg-[var(--surface)] text-text border border-[var(--border)] hover:bg-[var(--surface2)]',
+        ghost:
+          'bg-transparent text-[var(--textMuted)] hover:bg-[rgba(222,181,215,0.25)] hover:text-text',
+        outline:
+          'border border-[var(--border)] bg-transparent text-text hover:bg-[rgba(222,181,215,0.2)]',
+        destructive:
+          'bg-[rgba(254,197,230,0.6)] text-[var(--textStrong)] border border-[rgba(222,181,215,0.7)] hover:bg-[rgba(254,197,230,0.75)]',
       },
       size: {
         sm: 'h-9 px-3 text-sm',

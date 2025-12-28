@@ -35,7 +35,7 @@ export default function ReactionBar({
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2 rounded-full border border-[var(--divider)] bg-[rgba(254,197,230,0.35)] px-3 py-2">
       {reactions.map(({ type, icon, label }) => (
         <Button
           key={type}
@@ -50,7 +50,7 @@ export default function ReactionBar({
         </Button>
       ))}
       {showCommentCount && (
-        <div className="border-r border-[var(--border)] h-5" />
+        <div className="h-5 border-r border-[var(--divider)]" />
       )}
       {showCommentCount && (
         <Button

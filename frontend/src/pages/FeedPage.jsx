@@ -37,7 +37,7 @@ export default function FeedPage() {
   };
 
   return (
-    <div className="px-3 py-6 sm:px-0" style={{ maxWidth: 760, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem', paddingBottom: '2rem' }}>
+    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-3 py-6 pb-8 sm:px-0">
       <PostComposer user={user} onPostCreated={loadPosts} />
       {loading && (
         <Card className="space-y-3 p-5">
@@ -48,10 +48,12 @@ export default function FeedPage() {
       )}
 
       {!loading && posts.length === 0 && (
-        <div className="empty-state">Không có bài viết nào. Hãy chia sẻ suy nghĩ đầu tiên của bạn.</div>
+        <div className="empty-state glass rounded-2xl border border-[var(--border)]">
+          Không có bài viết nào. Hãy chia sẻ suy nghĩ đầu tiên của bạn.
+        </div>
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         {posts.map(post => (
           <PostCard
             key={post._id}

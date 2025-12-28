@@ -34,7 +34,7 @@ export const PlanItemCard = ({
         'group relative flex min-h-[44px] items-start gap-3 rounded-md border border-[var(--border)] bg-[var(--surface2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-plan)]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg0)]',
         compact ? 'p-2 text-xs' : 'p-3',
         item.completed && 'opacity-80',
-        !disableToggle && 'cursor-pointer hover:shadow-[0_0_0_1px_rgba(79,209,197,0.35)]',
+        !disableToggle && 'cursor-pointer hover:shadow-[0_0_0_1px_rgba(222,181,215,0.35)]',
         className
       )}
       role="button"
